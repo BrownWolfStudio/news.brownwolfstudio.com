@@ -13,7 +13,6 @@ RUN dotnet build "BrownNews.csproj" -c Release -o /app
 
 FROM build AS publish
 RUN dotnet publish "BrownNews.csproj" -c Release -o /app
-ENV 
 
 FROM base AS final
 WORKDIR /app
