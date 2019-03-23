@@ -10,6 +10,8 @@ RUN dotnet restore "BrownNews/BrownNews.csproj"
 COPY . .
 WORKDIR "/src/BrownNews"
 RUN dotnet build "BrownNews.csproj" -c Release -o /app
+RUN dotnet ef migrations add Init
+RUN dotnet ef database update
 
 FROM build AS publish
 RUN dotnet publish "BrownNews.csproj" -c Release -o /app
