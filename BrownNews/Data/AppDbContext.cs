@@ -1,5 +1,4 @@
 ﻿using BrownNews.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -15,30 +14,11 @@ namespace BrownNews.Data
         {
             modelBuilder.ApplyConfiguration(new EntityDbConfiguration());
             base.OnModelCreating(modelBuilder);
-
-            //modelBuilder.Entity<User>(entity => entity.Property(m => m.NormalizedEmail).HasMaxLength(200));
-            //modelBuilder.Entity<User>(entity => entity.Property(m => m.NormalizedUserName).HasMaxLength(200));
-
-            //modelBuilder.Entity<IdentityRole>(entity => entity.Property(m => m.NormalizedName).HasMaxLength(200));
-
-            //modelBuilder.Entity<IdentityUserLogin<string>>(entity => entity.Property(m => m.UserId).HasMaxLength(200));
-            //modelBuilder.Entity<IdentityUserLogin<string>>(entity => entity.Property(m => m.LoginProvider).HasMaxLength(200));
-            //modelBuilder.Entity<IdentityUserLogin<string>>(entity => entity.Property(m => m.ProviderKey).HasMaxLength(200));
-
-            //modelBuilder.Entity<IdentityUserRole<string>>(entity => entity.Property(m => m.UserId).HasMaxLength(200));
-            //modelBuilder.Entity<IdentityUserRole<string>>(entity => entity.Property(m => m.RoleId).HasMaxLength(200));
-
-            //modelBuilder.Entity<IdentityUserToken<string>>(entity => entity.Property(m => m.UserId).HasMaxLength(200));
-            //modelBuilder.Entity<IdentityUserToken<string>>(entity => entity.Property(m => m.LoginProvider).HasMaxLength(200));
-            //modelBuilder.Entity<IdentityUserToken<string>>(entity => entity.Property(m => m.Name).HasMaxLength(200));
-
-            //modelBuilder.Entity<IdentityUserClaim<string>>(entity => entity.Property(m => m.UserId).HasMaxLength(200));
-
-            //modelBuilder.Entity<IdentityRoleClaim<string>>(entity => entity.Property(m => m.RoleId).HasMaxLength(200));
         }
 
         public DbSet<Article> SavedArticles { get; set; }
         public DbSet<Source> Sources { get; set; }
+        public DbSet<DataProtectionKey> DataProtectionKeys { get; set; }
     }
 
     public class EntityDbConfiguration : IEntityTypeConfiguration<Article>

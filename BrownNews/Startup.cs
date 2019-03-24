@@ -1,7 +1,9 @@
 ﻿using BrownNews.Data;
+using BrownNews.Repositories;
 using BrownNews.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.DataProtection.Repositories;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -37,8 +39,6 @@ namespace BrownNews
 
             services.AddScoped<IDownloadNewsPaperService, DownloadNewsPaperService>();
 
-            services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(@"keys")).SetApplicationName(Configuration["AppName"]).SetDefaultKeyLifetime(TimeSpan.FromDays(90));
-
             services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseMySql(Configuration["ConnectionString"]);
@@ -54,6 +54,11 @@ namespace BrownNews
             })
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
+
+            services.AddSingleton<IXmlRepository, DataProtectionKeyRepository>();
+            var built = services.BuildServiceProvider();
+            services.AddDataProtection()
+                .AddKeyManagementOptions(options => options.XmlRepository = built.GetService<IXmlRepository>());
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
