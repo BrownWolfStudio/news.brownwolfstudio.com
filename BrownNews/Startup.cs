@@ -41,7 +41,7 @@ namespace BrownNews
 
             services.AddDbContext<AppDbContext>(options =>
             {
-                options.UseMySQL(Configuration["ConnectionString"]);
+                options.UseMySql(Configuration["ConnectionString"]);
             });
 
             services.AddIdentity<User, IdentityRole>(options =>
