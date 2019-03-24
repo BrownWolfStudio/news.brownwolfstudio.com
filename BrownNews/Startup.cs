@@ -53,6 +53,7 @@ namespace BrownNews
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
 
+            // https://nicolas.guelpa.me/blog/2017/01/11/dotnet-core-data-protection-keys-repository.html
             services.AddSingleton<IXmlRepository, DataProtectionKeyRepository>();
             var built = services.BuildServiceProvider();
             services.AddDataProtection()
