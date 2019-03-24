@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.IO;
 using System.Net.Http;
 
 namespace BrownNews
@@ -36,7 +37,7 @@ namespace BrownNews
 
             services.AddScoped<IDownloadNewsPaperService, DownloadNewsPaperService>();
 
-            services.AddDataProtection().SetApplicationName(Configuration["AppName"]).SetDefaultKeyLifetime(TimeSpan.FromDays(90));
+            services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(@"keys")).SetApplicationName(Configuration["AppName"]).SetDefaultKeyLifetime(TimeSpan.FromDays(90));
 
             services.AddDbContext<AppDbContext>(options =>
             {
