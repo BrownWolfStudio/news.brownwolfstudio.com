@@ -1,12 +1,9 @@
 ﻿using BrownNews.Data;
 using BrownNews.Models;
 using Microsoft.AspNetCore.DataProtection.Repositories;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace BrownNews.Repositories
@@ -44,11 +41,6 @@ namespace BrownNews.Repositories
             }
 
             _db.SaveChanges();
-        }
-
-        IReadOnlyCollection<XElement> IXmlRepository.GetAllElements()
-        {
-            throw new NotImplementedException();
         }
     }
 }
