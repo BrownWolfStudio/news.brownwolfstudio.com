@@ -21,13 +21,13 @@ namespace BrownNews.Services
             }
         }
 
-        private string DbRkUrlFormat { get; set; } = "http://digitalimages.bhaskar.com/gujarat/epaperimages/{0:ddMMyyyy}/3rajkot%20city-pg{1}-0ll.jpg";
+        private string DbRkUrlFormat { get; set; } = "http://digitalimages.bhaskar.com/gujarat/epaperimages/{0:ddMMyyyy}/{1}rajkot%20city-pg{2}-0ll.jpg";
         public string DbRkCurrentUrl
         {
             get
             {
                 var date = DateTime.Now;
-                return string.Format(DbRkUrlFormat, date, Page);
+                return string.Format(DbRkUrlFormat, date.Day - 1, date, Page);
             }
         }
 
@@ -44,7 +44,7 @@ namespace BrownNews.Services
             var response = await Client.GetAsync(url);
             while (response.IsSuccessStatusCode)
             {
-                var source = new SourceFile { Name = $"GujaratSamachar-{Page}", Extension = "pdf", FileBytes = await response.Content.ReadAsByteArrayAsync() };
+                var source = new SourceFile { Name = $"GujaratSamachar-{Page}", Extension = "jpg", FileBytes = await response.Content.ReadAsByteArrayAsync() };
                 sourceFiles.Add(source);
                 Page++;
                 url = GsRkCurrentUrl;
