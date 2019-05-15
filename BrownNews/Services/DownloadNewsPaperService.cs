@@ -27,7 +27,7 @@ namespace BrownNews.Services
             get
             {
                 var date = DateTime.Now;
-                return string.Format(DbRkUrlFormat, date.Day - 1, date, Page);
+                return string.Format(DbRkUrlFormat, date, date.Day - 1, Page);
             }
         }
 
