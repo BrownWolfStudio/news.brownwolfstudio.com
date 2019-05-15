@@ -8,7 +8,7 @@ namespace BrownNews.Services
     public interface IDownloadNewsPaperService
     {
         HttpClient Client { get; set; }
-        Task<List<SourceFile>> GetGsRkFilesAsync();
+        Task<List<SourceFile>> GetGsFilesAsync(string city);
         Task<List<SourceFile>> GetDbRkFilesAsync();
     }
 }

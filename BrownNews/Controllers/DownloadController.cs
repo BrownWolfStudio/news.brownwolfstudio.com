@@ -20,10 +20,11 @@ namespace BrownNews.Controllers
             return View();
         }
 
-        public async Task<IActionResult> GujaratSamacharRajkot()
+        [HttpPost("[controller]/[action]")]
+        public async Task<IActionResult> GujaratSamachar(string city)
         {
-            var files = await _downloadNewsPaperService.GetGsRkFilesAsync();
-            return File(files.ZipIt(), "application/zip", $"{nameof(GujaratSamacharRajkot)}-{DateTime.Now.ToString("ddMMyyyy")}.zip");
+            var files = await _downloadNewsPaperService.GetGsFilesAsync(city);
+            return File(files.ZipIt(), "application/zip", $"{nameof(GujaratSamachar)}-{DateTime.Now.ToString("ddMMyyyy")}.zip");
         }
 
         public async Task<IActionResult> DivyaBhaskarRajkot()

@@ -1,2 +1,13 @@
-﻿<a asp-area="" asp-controller="Download" asp-action="GujaratSamacharRajkot" class="col mt-50 m6 offset-m3 s10 offset-s1 waves-effect waves-light btn btn-large deep-purple">Gujarat Samachar</a>
+﻿<form asp-area="" asp-controller="Download" asp-action="GujaratSamachar">
+    @foreach (var city in GujaratSamacharViewModel.Cities)
+    {
+        <div class="col mt-50">
+            <label>
+                <input name="city" type="radio" value="@city.Key" />
+                <span>@city.Value</span>
+            </label>
+        </div>
+    }
+    <button type="submit" class="col mt-50 m6 offset-m3 s10 offset-s1 waves-effect waves-light btn btn-large deep-purple">Gujarat Samachar</button>
+</form>
 <a asp-area="" asp-controller="Download" asp-action="DivyaBhaskarRajkot" class="col mt-50 m6 offset-m3 s10 offset-s1 waves-effect waves-light btn btn-large deep-purple mb-50">Divya Bhaskar</a>

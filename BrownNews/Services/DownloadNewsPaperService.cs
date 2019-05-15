@@ -10,14 +10,15 @@ namespace BrownNews.Services
     {
         public HttpClient Client { get; set; }
         private int Page { get; set; }
+        private string City { get; set; } = "RAJ";
 
-        private string GsRkUrlFormat { get; set; } = "http://enewspapr.com/News/GUJARAT/RAJ/{0:yyyy}/{1:MM}/{2:dd}/{3:yyyyMMdd}_{4}.jpg";
+        private string GsRkUrlFormat { get; set; } = "http://enewspapr.com/News/GUJARAT/{0}/{1:yyyy}/{2:MM}/{3:dd}/{4:yyyyMMdd}_{5}.jpg";
         public string GsRkCurrentUrl
         {
             get
             {
                 var date = DateTime.Now;
-                return string.Format(GsRkUrlFormat, date, date, date, date, Page);
+                return string.Format(GsRkUrlFormat, City, date, date, date, date, Page);
             }
         }
 
@@ -36,9 +37,10 @@ namespace BrownNews.Services
             Client = client;
         }
 
-        public async Task<List<SourceFile>> GetGsRkFilesAsync()
+        public async Task<List<SourceFile>> GetGsFilesAsync(string city)
         {
             Page = 1;
+            City = city;
             List<SourceFile> sourceFiles = new List<SourceFile>();
             var url = GsRkCurrentUrl;
             var response = await Client.GetAsync(url);
