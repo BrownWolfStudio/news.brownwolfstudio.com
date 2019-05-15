@@ -11,7 +11,7 @@ namespace BrownNews.Services
         public HttpClient Client { get; set; }
         private int Page { get; set; }
 
-        private string GsRkUrlFormat { get; set; } = "http://enewspapr.com/News/GUJARAT/RAJ/{0:yyyy}/{1:MM}/{2:dd}/{3:yyyyMMdd}_{4}.PDF";
+        private string GsRkUrlFormat { get; set; } = "http://enewspapr.com/News/GUJARAT/RAJ/{0:yyyy}/{1:MM}/{2:dd}/{3:yyyyMMdd}_{4}.jpg";
         public string GsRkCurrentUrl
         {
             get
