@@ -15,6 +15,7 @@ namespace BrownNews.Controllers
             _downloadNewsPaperService = downloadNewsPaperService;
         }
 
+        [Route("/download")]
         public IActionResult Index()
         {
             return View();
