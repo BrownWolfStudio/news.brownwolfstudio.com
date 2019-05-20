@@ -34,8 +34,7 @@ namespace BrownNews
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            HttpClient httpClient = new HttpClient();
-            services.AddSingleton(httpClient);
+            services.AddHttpClient();
 
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddScoped<IUrlHelper>(x =>
