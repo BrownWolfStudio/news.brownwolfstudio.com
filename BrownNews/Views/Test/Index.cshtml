@@ -1,0 +1,8 @@
+@model PayPalTestViewModel
+
+<div class="col s12 m6 l4">
+    <form method="get" asp-controller="Test" asp-action="PayPalTest">
+        <input type="text" asp-for="@Model.Amount" required />
+        <button type="submit" class="waves-effect waves-light btn deep-purple">Test PayPal</button>
+    </form>
+</div>
