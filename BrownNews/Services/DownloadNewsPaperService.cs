@@ -52,7 +52,7 @@ namespace BrownNews.Services
                 sourceFiles.Add(source);
                 Page++;
                 url = GsRkCurrentUrl;
-                response = await Client.GetAsync(url);
+                response = await client.GetAsync(url);
             }
 
             return sourceFiles;
@@ -71,7 +71,7 @@ namespace BrownNews.Services
                 sourceFiles.Add(source);
                 Page++;
                 url = DbRkCurrentUrl;
-                response = await Client.GetAsync(url);
+                response = await client.GetAsync(url);
             }
 
             return sourceFiles;
