@@ -8,7 +8,8 @@ namespace BrownNews.Services
 {
     public class DownloadNewsPaperService : IDownloadNewsPaperService
     {
-        public HttpClient Client { get; set; }
+        private readonly IHttpClientFactory _clientFactory;
+
         private int Page { get; set; }
         private string City { get; set; } = "RAJ";
 
@@ -32,9 +33,9 @@ namespace BrownNews.Services
             }
         }
 
-        public DownloadNewsPaperService(HttpClient client)
+        public DownloadNewsPaperService(IHttpClientFactory clientFactory)
         {
-            Client = client;
+            _clientFactory = clientFactory;
         }
 
         public async Task<List<SourceFile>> GetGsFilesAsync(string city)
@@ -43,7 +44,8 @@ namespace BrownNews.Services
             City = city;
             List<SourceFile> sourceFiles = new List<SourceFile>();
             var url = GsRkCurrentUrl;
-            var response = await Client.GetAsync(url);
+            var client = _clientFactory.CreateClient();
+            var response = await client.GetAsync(url);
             while (response.IsSuccessStatusCode)
             {
                 var source = new SourceFile { Name = $"GujaratSamachar-{Page}", Extension = "jpg", FileBytes = await response.Content.ReadAsByteArrayAsync() };
@@ -61,7 +63,8 @@ namespace BrownNews.Services
             Page = 1;
             List<SourceFile> sourceFiles = new List<SourceFile>();
             var url = DbRkCurrentUrl;
-            var response = await Client.GetAsync(url);
+            var client = _clientFactory.CreateClient();
+            var response = await client.GetAsync(url);
             while (response.IsSuccessStatusCode)
             {
                 var source = new SourceFile { Name = $"DivyaBhaskar-{Page}", Extension = "jpg", FileBytes = await response.Content.ReadAsByteArrayAsync() };
