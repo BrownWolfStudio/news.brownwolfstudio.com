@@ -46,6 +46,8 @@ namespace BrownNews
 
             services.AddScoped<IPayPalService, PayPalService>();
 
+            services.AddScoped<IPdfService, PdfService>();
+            services.AddScoped<IPaperIOService, PaperIOService>();
             services.AddScoped<IDownloadNewsPaperService, DownloadNewsPaperService>();
 
             services.AddDbContext<AppDbContext>(options =>
