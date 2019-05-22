@@ -1,9 +1,7 @@
 ﻿using BrownNews.Services;
 using BrownNews.Utilities;
-using CorePDF.Embeds;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -30,9 +28,7 @@ namespace BrownNews.Controllers
         public async Task<IActionResult> GujaratSamachar(string city)
         {
             var files = await _downloadNewsPaperService.GetGsFilesAsync(city);
-            List<ImageFile> images = new List<ImageFile>();
-            files.ForEach(f => images.Add(new ImageFile { FileData = f.FileBytes, Name = f.Name }));
-            var doc = _pdfService.GetPdfFromImage(images);
+            var doc = _pdfService.GetPdfFromImage(files);
             using (var stream = new MemoryStream())
             {
                 doc.Publish(stream);

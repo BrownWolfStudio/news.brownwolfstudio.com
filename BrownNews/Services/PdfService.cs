@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using BrownNews.Models;
 using CorePDF;
 using CorePDF.Contents;
 using CorePDF.Embeds;
@@ -9,22 +10,38 @@ namespace BrownNews.Services
 {
     public class PdfService : IPdfService
     {
-        public Document GetPdfFromImage(List<ImageFile> images)
+        public Document GetPdfFromImage(List<SourceFile> files)
         {
-            var doc = new Document { Images = images };
-            images.ForEach(i => doc.Pages.Add(new Page
+            var doc = new Document();
+
+            var images = new List<ImageFile>();
+            
+            files.ForEach(f =>{
+                images.Add(new ImageFile {
+                    Name = f.Name,
+                    FileData = f.FileBytes
+                });
+            });
+
+            doc.Images = images;
+            
+            images.ForEach(i =>
             {
-                PageSize = Paper.PAGEA4PORTRAIT,
-                Contents = new List<Content>
+                doc.Pages.Add(new Page
                 {
-                    new Image
+                    PageSize = Paper.PAGEA4PORTRAIT,
+                    Contents = new List<Content>
                     {
-                        ImageName = i.Name,
-                        Height = 842,
-                        Width = 595
+                        new Image
+                        {
+                            ImageName = i.Name,
+                            Height = 842,
+                            Width = 595
+                        }
                     }
-                }
-            }));
+                });
+            });
+
             return doc;
         }
     }
