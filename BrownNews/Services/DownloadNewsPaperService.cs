@@ -46,7 +46,8 @@ namespace BrownNews.Services
             City = city;
             List<SourceFile> sourceFiles = new List<SourceFile>();
             var dir = $"{DateTime.Now.ToString("ddMMyyyy")}{city}";
-            if (_paperIOService.GetAllFromDir(dir, out sourceFiles))
+            sourceFiles = await _paperIOService.GetAllFromDir(dir);
+            if (sourceFiles.Count > 0)
             {
                 return sourceFiles;
             }
@@ -67,7 +68,7 @@ namespace BrownNews.Services
                 response = await client.GetAsync(url);
             }
             _paperIOService.CleanDir(dir);
-            _paperIOService.SaveAllToDir(dir, sourceFiles);
+            await _paperIOService.SaveAllToDir(dir, sourceFiles);
             return sourceFiles;
         }
 

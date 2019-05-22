@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using BrownNews.Models;
 using Microsoft.AspNetCore.Hosting;
 
@@ -25,12 +26,12 @@ namespace BrownNews.Services
             return false;
         }
 
-        public bool GetAllFromDir(string path, out List<SourceFile> sourceFiles)
+        public async Task<List<SourceFile>> GetAllFromDir(string path)
         {
             try
             {
                 path = Path.Combine(ContentRoot, path);
-                sourceFiles = new List<SourceFile>();
+                var sourceFiles = new List<SourceFile>();
                 var files = Directory.GetFiles(path);
                 foreach (var file in files)
                 {
@@ -39,20 +40,19 @@ namespace BrownNews.Services
                         {
                             Name = Path.GetFileNameWithoutExtension(file),
                             Extension = Path.GetExtension(path),
-                            FileBytes = File.ReadAllBytes(file)
+                            FileBytes = await File.ReadAllBytesAsync(file)
                         }
                     );
                 }
-                return true;
+                return sourceFiles;
             }
             catch
             {
-                sourceFiles = new List<SourceFile>();
-                return false;
+                return new List<SourceFile>();
             }
         }
 
-        public bool SaveAllToDir(string path, List<SourceFile> sourceFiles)
+        public async Task<bool> SaveAllToDir(string path, List<SourceFile> sourceFiles)
         {
             try
             {
@@ -61,7 +61,7 @@ namespace BrownNews.Services
                 foreach (var sFile in sourceFiles)
                 {
                     var fPath = Path.Combine(path, sFile.Name + $".{sFile.Extension}");
-                    File.WriteAllBytesAsync(fPath, sFile.FileBytes);
+                    await File.WriteAllBytesAsync(fPath, sFile.FileBytes);
                 }
                 return true;
             }
