@@ -57,34 +57,27 @@ namespace BrownNews.Services
 
             System.Net.HttpStatusCode statusCode;
 
-            try
+            BraintreeHttp.HttpResponse response = await client.Execute(request);
+            statusCode = response.StatusCode;
+            Payment result = response.Result<Payment>();
+
+            string redirectUrl = null;
+            foreach (LinkDescriptionObject link in result.Links)
             {
-                BraintreeHttp.HttpResponse response = await client.Execute(request);
-                statusCode = response.StatusCode;
-                Payment result = response.Result<Payment>();
-
-                string redirectUrl = null;
-                foreach (LinkDescriptionObject link in result.Links)
+                if (link.Rel.Equals("approval_url"))
                 {
-                    if (link.Rel.Equals("approval_url"))
-                    {
-                        redirectUrl = link.Href;
-                    }
-                }
-
-                if (redirectUrl == null)
-                {
-                    // Didn't find an approval_url in response.Links
-                    return null;
-                }
-                else
-                {
-                    return redirectUrl;
+                    redirectUrl = link.Href;
                 }
             }
-            catch (BraintreeHttp.HttpException ex)
+
+            if (redirectUrl == null)
             {
-                throw ex;
+                // Didn't find an approval_url in response.Links
+                return null;
+            }
+            else
+            {
+                return redirectUrl;
             }
         }
     }

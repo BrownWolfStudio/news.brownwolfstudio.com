@@ -9,7 +9,6 @@ namespace BrownNews.Services
     public class DownloadNewsPaperService : IDownloadNewsPaperService
     {
         private readonly IHttpClientFactory _clientFactory;
-        private readonly IPaperIOService _paperIOService;
 
         private int Page { get; set; }
         private string City { get; set; } = "RAJ";
@@ -34,10 +33,9 @@ namespace BrownNews.Services
             }
         }
 
-        public DownloadNewsPaperService(IHttpClientFactory clientFactory, IPaperIOService paperIOService)
+        public DownloadNewsPaperService(IHttpClientFactory clientFactory)
         {
             _clientFactory = clientFactory;
-            _paperIOService = paperIOService;
         }
 
         public async Task<List<SourceFile>> GetGsFilesAsync(string city)
@@ -45,12 +43,6 @@ namespace BrownNews.Services
             Page = 1;
             City = city;
             List<SourceFile> sourceFiles = new List<SourceFile>();
-            var dir = $"{DateTime.Now.ToString("ddMMyyyy")}{city}";
-            sourceFiles = await _paperIOService.GetAllFromDir(dir);
-            if (sourceFiles.Count > 0)
-            {
-                return sourceFiles;
-            }
             var url = GsRkCurrentUrl;
             var client = _clientFactory.CreateClient();
             var response = await client.GetAsync(url);
@@ -67,8 +59,6 @@ namespace BrownNews.Services
                 url = GsRkCurrentUrl;
                 response = await client.GetAsync(url);
             }
-            _paperIOService.CleanDir(dir);
-            await _paperIOService.SaveAllToDir(dir, sourceFiles);
             return sourceFiles;
         }
 

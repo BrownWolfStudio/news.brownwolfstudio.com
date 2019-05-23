@@ -15,60 +15,22 @@ namespace BrownNews.Services
             ContentRoot = Path.Combine(env.ContentRootPath, "DownloadedPaper");
         }
 
+        public (string, bool) GetFile(string path, string name)
+        {
+            var file = Path.Combine(ContentRoot, path, name);
+            if (File.Exists(file) && new FileInfo(file).Length > 0)
+            {
+                return (file, true);
+            }
+            else return (file, false);
+        }
+
         public bool CleanDir(string path)
         {
             path = Path.Combine(ContentRoot, path);
-            if (Directory.Exists(path))
-            {
-                Directory.Delete(path);
-                return true;
-            }
-            return false;
-        }
-
-        public async Task<List<SourceFile>> GetAllFromDir(string path)
-        {
-            try
-            {
-                path = Path.Combine(ContentRoot, path);
-                var sourceFiles = new List<SourceFile>();
-                var files = Directory.GetFiles(path);
-                foreach (var file in files)
-                {
-                    sourceFiles.Add(
-                        new SourceFile
-                        {
-                            Name = Path.GetFileNameWithoutExtension(file),
-                            Extension = Path.GetExtension(path),
-                            FileBytes = await File.ReadAllBytesAsync(file)
-                        }
-                    );
-                }
-                return sourceFiles;
-            }
-            catch
-            {
-                return new List<SourceFile>();
-            }
-        }
-
-        public async Task<bool> SaveAllToDir(string path, List<SourceFile> sourceFiles)
-        {
-            try
-            {
-                path = Path.Combine(ContentRoot, path);
-                Directory.CreateDirectory(path);
-                foreach (var sFile in sourceFiles)
-                {
-                    var fPath = Path.Combine(path, sFile.Name + $".{sFile.Extension}");
-                    await File.WriteAllBytesAsync(fPath, sFile.FileBytes);
-                }
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            if (Directory.Exists(path)) Directory.Delete(path, true);
+            Directory.CreateDirectory(path);
+            return true;
         }
     }
 }

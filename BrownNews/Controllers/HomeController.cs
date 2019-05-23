@@ -39,17 +39,10 @@ namespace BrownNews.Controllers
                 Page = page,
                 PageSize = pageSize
             };
-            try
-            {
-                model.Headlines = await client.GetNewsAsync();
-            }
-            catch (Exception)
-            {
-                return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-            }
+            model.Headlines = await client.GetNewsAsync();
             return View(model);
         }
-        
+
         public async Task<IActionResult> Search(string q = "technology", int page = 1)
         {
             var client = HelperMethods.SetupUrlAndClient(API_KEY, HelperMethods.NewsType.Everything, $"q={q}", $"pageSize={pageSize}", $"page={page}");
@@ -62,17 +55,10 @@ namespace BrownNews.Controllers
                 Page = page,
                 PageSize = pageSize
             };
-            try
-            {
-                model.Headlines = await client.GetNewsAsync();
-            }
-            catch (Exception)
-            {
-                return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-            }
+            model.Headlines = await client.GetNewsAsync();
             return View(model);
         }
-        
+
         [Route("/{country}")]
         public async Task<IActionResult> IndexByCountry(string country = "us", string category = "general", int page = 1)
         {
@@ -89,17 +75,10 @@ namespace BrownNews.Controllers
                 Page = page,
                 PageSize = pageSize
             };
-            try
-            {
-                model.Headlines = await client.GetNewsAsync();
-            }
-            catch (Exception)
-            {
-                return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-            }
+            model.Headlines = await client.GetNewsAsync();
             return View("Index", model);
         }
-        
+
         public IActionResult Privacy()
         {
             return View();
