@@ -123,7 +123,7 @@ namespace BrownNews.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> IsUserNameTaken(string username)
         {
             var user = await _userManager.FindByNameAsync(username);

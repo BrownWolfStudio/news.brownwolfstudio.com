@@ -72,7 +72,7 @@
 
             function checkUserNameWithServer() {
                 $.ajax({
-                    type: 'POST',
+                    type: 'GET',
                     url: `/Account/IsUserNameTaken?username=${username.val()}`,
                     dataType: 'json',
                     async: true,
